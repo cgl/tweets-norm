@@ -13,5 +13,7 @@ public interface Feed {
     ArrayList<NTweet> tweets = null;
     ArrayList<String> tweet_texts = null;
 
-    void normalize();
+    void normalize() throws Exception;
 }
+
+

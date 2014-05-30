@@ -1,13 +1,13 @@
 package Feed;
 
-import Evaluation.engEvaluator;
-import Extraction.engExtractor;
 import Preprocess.engPreprocessor;
-import Rank.engRanker;
 import graph.Configuration;
 import graph.NTweet;
+import graph.NormalizeTweetThread;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by cagil on 26/05/14.
@@ -19,6 +19,12 @@ public class engInputFeed implements Feed {
     public engInputFeed(final Configuration conf) {
         this.conf = conf;
         tweets = new ArrayList<NTweet>();
+    }
+
+    public engInputFeed(Configuration conf, String text) {
+        this.conf = conf;
+        tweets = new ArrayList<NTweet>();
+        process(text);
     }
 
     public void process(String tweet) {
@@ -34,31 +40,21 @@ public class engInputFeed implements Feed {
     }
 
     @Override
-    public void normalize() {
+    public void normalize() throws Exception {
         engPreprocessor pre = new engPreprocessor(this, conf);
-        try {
-            pre.processMulti();
+        pre.processMulti();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ExecutorService executor = Executors.newFixedThreadPool(5);
         for (NTweet tweet : tweets) {
-            normalizeTweet(tweet);
+            NormalizeTweetThread normalizer = new NormalizeTweetThread("1", conf, this, tweet);
+            //normalizer.start();
+            executor.execute(normalizer);
         }
-
-    }
-
-    private void normalizeTweet(NTweet tweet) {
-        for (int i = 0; i < tweet.OOV ; i++) {
-            engExtractor ext = new engExtractor(this,conf);
-            ext.process();
-            engEvaluator evaluator = new engEvaluator(this,conf);
-            evaluator.process();
-            engRanker ranker = new engRanker(this,conf);
-            ranker.process();
-
+        executor.shutdown();
+        while (!executor.isTerminated()) {
         }
     }
+
 
     @Override
     public String toString() {
@@ -66,7 +62,7 @@ public class engInputFeed implements Feed {
         for (NTweet tweet : tweets) {
             string.append(tweet.getText() + " | " + tweet.getLastNormalizedText() + "\n");
         }
-        return  string.toString();
+        return string.toString();
     }
 
 

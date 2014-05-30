@@ -57,7 +57,7 @@ public class Configuration {
         this.zemberekSpellChecker = new SingleWordSpellChecker(1.4, true);
         System.out.println("Loading vocabulary");
         //List<String> list = Files.readAllLines(new File("/Users/cagil/Documents/zemberek-nlp/500.txt").toPath(), Charsets.UTF_8);
-        List<String> list = Files.readAllLines(new File(Constants.dictionary).toPath(), Charsets.UTF_8);
+        List<String> list = Files.readAllLines(new File(Constants.dictionary_tr_tr).toPath(), Charsets.UTF_8);
 
         //List<String> list = Files.readAllLines(new File("/Users/cagil/Documents/allvoc.txt").toPath(), Charsets.UTF_8);
         System.out.println("Building tree");

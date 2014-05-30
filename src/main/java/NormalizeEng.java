@@ -1,49 +1,24 @@
 import Feed.engInputFeed;
+import cmu.arktweetnlp.io.JsonTweetReader;
+import cmu.arktweetnlp.util.BasicFileIO;
 import graph.Configuration;
+import graph.constants.Constants;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by cagil on 27/05/14.
  */
-class NormalizeEngThread implements Runnable{
-    private Thread t;
-    private String threadName;
-    private Configuration conf ;
-    private engInputFeed feed ;
 
-    NormalizeEngThread(String name, Configuration conf, engInputFeed feed){
-        threadName = name;
-        this.conf = conf;
-        this.feed = feed;
-        System.out.println("Creating " +  threadName );
-        run();
-    }
-    public void run()  {
-        feed.normalize();
-        System.out.println(feed.toString());
-    }
-
-    public void start ()
-    {
-        System.out.println("Starting " +  threadName );
-        if (t == null)
-        {
-            t = new Thread (this, threadName);
-            t.start ();
-        }
-    }
-}
 
 public class NormalizeEng {
+    public static String inputFormat = "auto";
+
     public static void main(String args[]) throws Exception {
-        String filename = "";
         Configuration conf = new Configuration();
-        //processFile(filename,conf);
-        processSingle(conf);
+
+        processFile(Constants.tweets_text,conf);
+        //processSingle(conf);
     }
 
     public static void processSingle(Configuration conf) throws Exception {
@@ -51,33 +26,53 @@ public class NormalizeEng {
         feed.process("This is a tweet which has sme mstakes");
         String sentence = "A sentence " + "with a error in the Hitchhiker's Guide tot he Galaxy";
         feed.process(sentence);
-        NormalizeEngThread normalizer = new NormalizeEngThread("1", conf, feed);
+        feed.normalize();
+        System.out.println(feed.toString());
+        //NormalizeEngThread normalizer = new NormalizeEngThread("1", conf, feed);
     }
 
-    public static void processFile(String filename,Configuration conf) throws Exception {
-        BufferedReader bReader = null;
-        engInputFeed feed = new engInputFeed(conf);
-        int lineCount=0;
-        try {
-            bReader = new BufferedReader(new FileReader(filename));
-            String line;
-            while ((line = bReader.readLine()) != null) {
-                feed.process(line);
-                lineCount++;
-                if(lineCount % 10 == 0){
-                    NormalizeEngThread normalizer = new NormalizeEngThread(String.valueOf(lineCount),conf,feed);
-                    feed =  new engInputFeed(conf);
+    public static void processFile(String inputFilename, Configuration conf) throws Exception {
+        engInputFeed feed;
+        int inputField = 1;
+        JsonTweetReader jsonTweetReader = new JsonTweetReader();
+        LineNumberReader reader = new LineNumberReader(BasicFileIO.openFileToReadUTF8(inputFilename));
+        String line;
+        int lineCount = 0;
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split("\t");
+            String tweetData = parts[inputField - 1];
+
+            if (reader.getLineNumber() == 1) {
+                if (inputFormat.equals("auto")) {
+                    detectAndSetInputFormat(tweetData);
                 }
-
             }
-        } catch (FileNotFoundException e) {
-            throw new Exception(String.format("File not found: %s", filename));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bReader != null)
-                bReader.close();
+            String text;
+            if (inputFormat.equals("json")) {
+                text = jsonTweetReader.getText(tweetData);
+                if (text == null) {
+                    System.err.println("Warning, null text (JSON parse error?), using blank string instead");
+                    text = "";
+                }
+            } else {
+                text = tweetData;
+            }
+            feed = new engInputFeed(conf, text);
+            feed.normalize();
+            System.out.println(feed.toString());
+            //NormalizeEngThread normalizer = new NormalizeEngThread(String.valueOf(lineCount++),conf,feed);
         }
-
     }
+
+    public static void detectAndSetInputFormat(String tweetData) throws IOException {
+        JsonTweetReader jsonTweetReader = new JsonTweetReader();
+        if (jsonTweetReader.isJson(tweetData)) {
+            System.err.println("Detected JSON input format");
+            inputFormat = "json";
+        } else {
+            System.err.println("Detected text input format");
+            inputFormat = "text";
+        }
+    }
+
 }

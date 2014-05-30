@@ -10,7 +10,6 @@ public class Constants {
     public static String dictionary_jazzy_en_us = "src/main/resources/en_US_dictionary_jazzy.txt";
     public static final Locale localeTr = Locale.forLanguageTag("tr-TR");
     public static String modelFilename = "src/main/resources/model.20120919";
-
-
-
+    public static String tweets_json =  "src/main/resources/tweets.json";
+    public static String tweets_text = "src/main/resources/tweets.txt";
 }
