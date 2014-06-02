@@ -28,8 +28,9 @@
                     <configuration>
                         <archive>
                             <manifest>
-                                <mainClass>NormalizeEng</mainClass>
                                 <addClasspath>true</addClasspath>
+                                <mainClass>NormalizeEng</mainClass>
+                                <classpathPrefix>lib/</classpathPrefix>
                             </manifest>
                         </archive>
                     </configuration>
