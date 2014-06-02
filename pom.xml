@@ -29,6 +29,7 @@
                         <archive>
                             <manifest>
                                 <mainClass>NormalizeEng</mainClass>
+                                <addClasspath>true</addClasspath>
                             </manifest>
                         </archive>
                     </configuration>
