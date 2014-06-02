@@ -1,27 +1,23 @@
 package graph;
 
 import cmu.arktweetnlp.util.BasicFileIO;
-import com.google.common.base.Charsets;
 import com.swabunga.spell.engine.SpellDictionaryHashMap;
 import com.swabunga.spell.event.SpellChecker;
 import graph.constants.Constants;
 import graph.constants.Language;
 import graph.constants.Type;
-import zemberek.spelling.SingleWordSpellChecker;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by cagil on 27/05/14.
  */
 public class Configuration {
-    private SingleWordSpellChecker zemberekSpellChecker = null;
+    //private SingleWordSpellChecker zemberekSpellChecker = null;
     private SpellChecker jazzySpellChecker = null;
     private Type type = Type.MULTI;
     private Language lang = Language.ENG;
@@ -63,7 +59,7 @@ public class Configuration {
             System.exit(2);
         }
     }
-
+    /*
     public SingleWordSpellChecker getZemberekSpellChecker() {
         return zemberekSpellChecker;
     }
@@ -79,7 +75,7 @@ public class Configuration {
         zemberekSpellChecker.buildDictionary(list);
         System.out.println("Tree is ready");
     }
-
+      */
     private static HashMap<String,String> initDict(String dict) throws IOException {
         BufferedReader bReader = BasicFileIO.getResourceReader(dict);
         HashMap<String,String> dictset = new HashMap<String,String>();
