@@ -1,5 +1,6 @@
 package graph;
 
+import cmu.arktweetnlp.util.BasicFileIO;
 import com.google.common.base.Charsets;
 import com.swabunga.spell.engine.SpellDictionaryHashMap;
 import com.swabunga.spell.event.SpellChecker;
@@ -8,10 +9,12 @@ import graph.constants.Language;
 import graph.constants.Type;
 import zemberek.spelling.SingleWordSpellChecker;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,6 +26,18 @@ public class Configuration {
     private Type type = Type.MULTI;
     private Language lang = Language.ENG;
     private boolean justTokenize = false;
+    private boolean useSlang = true;
+    private HashMap<String,String> slangDict = null;
+
+    public Configuration() throws IOException {
+        slangDict = initDict(Constants.slang_dict);
+    }
+
+    public Configuration(final boolean useSlang) throws IOException {
+        this.useSlang = useSlang;
+        if(useSlang)
+            slangDict = initDict(Constants.slang_dict);
+    }
 
 
     public SpellChecker getJazzySpellChecker() {
@@ -63,6 +78,33 @@ public class Configuration {
         System.out.println("Building tree");
         zemberekSpellChecker.buildDictionary(list);
         System.out.println("Tree is ready");
+    }
+
+    private static HashMap<String,String> initDict(String dict) throws IOException {
+        BufferedReader bReader = BasicFileIO.getResourceReader(dict);
+        HashMap<String,String> dictset = new HashMap<String,String>();
+        String line=BasicFileIO.getLine(bReader);
+        while(line != null){
+            dictset.put(line.split("-")[0],line.split("-")[1]);
+            line = BasicFileIO.getLine(bReader);
+        }
+        return dictset;
+    }
+
+    public boolean isUseSlang() {
+        return useSlang;
+    }
+
+    public void setUseSlang(boolean useSlang) {
+        this.useSlang = useSlang;
+    }
+
+    public HashMap<String, String> getSlangDict() {
+        return slangDict;
+    }
+
+    public void setSlangDict(HashMap<String, String> slangDict) {
+        this.slangDict = slangDict;
     }
 
     public Type getType() {

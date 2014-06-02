@@ -37,5 +37,10 @@
             <artifactId>ark-tweet-nlp</artifactId>
             <version>0.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>2.11.0</version>
+        </dependency>
     </dependencies>
 </project>

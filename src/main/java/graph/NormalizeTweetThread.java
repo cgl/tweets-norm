@@ -28,7 +28,7 @@ public class NormalizeTweetThread implements Runnable{
 
     private void normalizeTweet(NTweet tweet) {
         for (int i = 0; i < tweet.OOV ; i++) {
-            engExtractor ext = new engExtractor(tweet,conf);
+            engExtractor ext = new engExtractor(tweet,conf, i);
             ext.process();
             engEvaluator evaluator = new engEvaluator(tweet,conf);
             evaluator.process();

@@ -12,6 +12,7 @@ import graph.constants.OOVFunction;
 
 import java.util.ArrayList;
 
+import static cmu.arktweetnlp.RunTagger.wordsInCluster;
 import static cmu.arktweetnlp.Tagger.TaggedToken;
 import static graph.NTweet.TToken;
 
@@ -52,11 +53,18 @@ public class engPreprocessor implements Preprocessor {
 
     public void detectOOV(NTweet tweet) throws Exception {
         OOVFunction func = new OOVFunction(tweet.getText(),"", null);
-        for (TToken token : tweet.gettTokens()) {
+        ArrayList<TToken> tokens = tweet.gettTokens();
+        TToken token;
+        for (int i = 0; i < tokens.size(); i++) {
+            token = tokens.get(i);
             func.setToken(token.token);
-            token.isOOV = func.call();
-            tweet.OOV +=  token.isOOV ? 1:0;
-            System.out.println(token.token+" "+token.tag+" "+(token.isOOV ? "OOV" : "IV"));
+            token.setOOV(func.call());
+            if(token.isOOV()) {
+                tweet.OOV += 1;
+                tweet.OOVTokens.add(i);
+            }
+            System.out.println(token.token+" "+token.tag+" "+(token.isOOV() ? "OOV" : "IV")+" "+wordsInCluster().contains(token)
+            );
         }
     }
 

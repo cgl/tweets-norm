@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
 
 /**
  * Created by cagil on 27/05/14.   ,
@@ -51,6 +52,12 @@ public class OOVFunction implements Callable<Boolean> {
         //System.out.println(spellCheck.checkSpelling(new StringWordTokenizer(sentence)));
         //final JazzyTest2 test2 = new JazzyTest2();
         //test2.check(sentence,token);
+        if (Pattern.matches("\\p{Punct}", token)
+                | token.startsWith("@")
+                | token.startsWith("#"))
+            return false;
+
+
         return  !spellCheck.isCorrect(token);
 
 

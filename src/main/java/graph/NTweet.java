@@ -1,10 +1,9 @@
 package graph;
 
 import cmu.arktweetnlp.Tagger;
+import edu.berkeley.nlp.util.SortedList;
 
-import java.util.ArrayList;
-import java.util.SortedMap;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by cagil on 26/05/14.
@@ -14,6 +13,8 @@ public class NTweet {
     private SortedMap<Integer,NToken> tokens;
     private ArrayList<TToken> tTokens;
     public int OOV = 0;
+    public SortedList<Integer> OOVTokens;
+
     private final String text;
     private Stack<String> normalizedTexts = new Stack<String>();
 
@@ -46,7 +47,6 @@ public class NTweet {
         for (Tagger.TaggedToken taggedToken : tTokens) {
             this.tTokens.add(new TToken(taggedToken.token,taggedToken.tag));
         }
-
     }
 
     public Stack<String> getNormalizedTexts() {
@@ -70,9 +70,23 @@ public class NTweet {
     public static class TToken extends Tagger.TaggedToken{
         public String token;
         public String tag;
-        public boolean isOOV;
+
+        private boolean isOOV;
         //private NTweet tweet;
-        public SortedMap<Float,String> candidates;
+        public TreeMap<String,Integer> candidates;
+
+        public boolean isOOV() {
+            return isOOV;
+        }
+
+        public void setOOV(boolean isOOV) {
+            this.isOOV = isOOV;
+            if(isOOV)
+                candidates = new TreeMap<String,Integer>();
+        }
+        public void addCandidate(String lexeme) {
+            candidates.put(lexeme,0);
+        }
 
         public TToken(String token, String tag) {
             this.token = token;
