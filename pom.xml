@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.cagil.tweets</groupId>
-    <artifactId>tweets-norm</artifactId>
+    <artifactId>tweet-norm</artifactId>
     <version>0.1</version>
     <packaging>jar</packaging>
 
