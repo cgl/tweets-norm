@@ -12,8 +12,13 @@ public class Test {
         mongoTest();
     }
 
-    public static void mongoTest() throws UnknownHostException {
-        Mongo mongo = new Mongo();
-        System.out.print(mongo.dic.count());
+    public static void mongoTest() {
+        try {
+            Mongo mongo = new Mongo();
+            System.out.print(mongo.dic.count());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
