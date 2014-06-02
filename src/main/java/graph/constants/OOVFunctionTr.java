@@ -1,7 +1,7 @@
 package graph.constants;
 
 import zemberek.core.DoubleValueSet;
-import zemberek.spelling.SingleWordSpellChecker;
+//import zemberek.spelling.SingleWordSpellChecker;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ public class OOVFunctionTr extends OOVFunction {
     private String token;
     private Object[] args;
     private String sentence;
-    private SingleWordSpellChecker dt;
+    //private SingleWordSpellChecker dt;
     public OOVFunctionTr(final String sentence, final String token, final Label label) throws IOException {
         super(sentence, token,label);
 
@@ -20,7 +20,8 @@ public class OOVFunctionTr extends OOVFunction {
 
     @Override
     public Boolean call() throws Exception{
-        DoubleValueSet<String> res = dt.decode(this.token.toLowerCase(Constants.localeTr));
+        //DoubleValueSet<String> res = dt.decode(this.token.toLowerCase(Constants.localeTr));
+        DoubleValueSet<String> res = null;
         for (String re : res) {
             double v = res.get(re);
             if(v == 0.0){
@@ -32,12 +33,6 @@ public class OOVFunctionTr extends OOVFunction {
         return false;
     }
 
-    public SingleWordSpellChecker getDt() {
-        return dt;
-    }
 
-    public void setDt(SingleWordSpellChecker dt) {
-        this.dt = dt;
-    }
 }
 
