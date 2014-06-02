@@ -1,24 +1,23 @@
 package graph;
 
 import cmu.arktweetnlp.util.BasicFileIO;
-import com.swabunga.spell.engine.SpellDictionaryHashMap;
-import com.swabunga.spell.event.SpellChecker;
 import graph.constants.Constants;
 import graph.constants.Language;
 import graph.constants.Type;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+
+//import com.swabunga.spell.engine.SpellDictionaryHashMap;
+//import com.swabunga.spell.event.SpellChecker;
 
 /**
  * Created by cagil on 27/05/14.
  */
 public class Configuration {
     //private SingleWordSpellChecker zemberekSpellChecker = null;
-    private SpellChecker jazzySpellChecker = null;
+    //private SpellChecker jazzySpellChecker = null;
     private Type type = Type.MULTI;
     private Language lang = Language.ENG;
     private boolean justTokenize = false;
@@ -36,29 +35,7 @@ public class Configuration {
     }
 
 
-    public SpellChecker getJazzySpellChecker() {
-        return jazzySpellChecker;
-    }
 
-
-    private void setJazzySpellChecker()
-    {
-        File dict = new File(Constants.dictionary_jazzy_en_us);
-        try
-        {
-            jazzySpellChecker = new SpellChecker(new SpellDictionaryHashMap(dict));
-        }
-        catch (FileNotFoundException e)
-        {
-            System.err.println("Dictionary File '" + dict + "' not found! Quitting. " + e);
-            System.exit(1);
-        }
-        catch (IOException ex)
-        {
-            System.err.println("IOException occurred while trying to read the dictionary file: " + ex);
-            System.exit(2);
-        }
-    }
     /*
     public SingleWordSpellChecker getZemberekSpellChecker() {
         return zemberekSpellChecker;

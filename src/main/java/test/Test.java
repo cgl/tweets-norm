@@ -1,3 +1,5 @@
+package test;
+
 import graph.Mongo;
 
 import java.net.UnknownHostException;

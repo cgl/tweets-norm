@@ -28,7 +28,7 @@
                     <configuration>
                         <archive>
                             <manifest>
-                                <mainClass>com.cagil.tweetnorm.NormalizeEng</mainClass>
+                                <mainClass>NormalizeEng</mainClass>
                             </manifest>
                         </archive>
                     </configuration>
