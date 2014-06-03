@@ -12,7 +12,6 @@ public class Constants {
     public static String modelFilename = "src/main/resources/model.20120919";
     public static String tweets_json =  "src/main/resources/tweets.json";
     public static String tweets_text = "src/main/resources/tweets.txt";
-    public static String slang_dict = "src/main/resources/noslang.txt";
-
+    public static String slang_dict = "src/main/resources/noslang.txt"; //"/com/tweets-norm/noslang.txt";
 
 }

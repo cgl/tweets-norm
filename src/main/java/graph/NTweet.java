@@ -1,9 +1,11 @@
 package graph;
 
 import cmu.arktweetnlp.Tagger;
-import edu.berkeley.nlp.util.SortedList;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.SortedMap;
+import java.util.Stack;
+import java.util.TreeMap;
 
 /**
  * Created by cagil on 26/05/14.
@@ -13,7 +15,7 @@ public class NTweet {
     private SortedMap<Integer,NToken> tokens;
     private ArrayList<TToken> tTokens;
     public int OOV = 0;
-    public SortedList<Integer> OOVTokens;
+    public ArrayList<Integer> OOVTokens;
 
     private final String text;
     private Stack<String> normalizedTexts = new Stack<String>();
@@ -25,6 +27,7 @@ public class NTweet {
     public NTweet(String text) {
         this.text = text;
         tTokens = new ArrayList<TToken>();
+        OOVTokens = new ArrayList<Integer>();
     }
 
     public SortedMap<Integer,NToken> getTokens() {

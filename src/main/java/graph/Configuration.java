@@ -5,8 +5,8 @@ import graph.constants.Constants;
 import graph.constants.Language;
 import graph.constants.Type;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 
 //import com.swabunga.spell.engine.SpellDictionaryHashMap;
@@ -54,7 +54,8 @@ public class Configuration {
     }
       */
     private static HashMap<String,String> initDict(String dict) throws IOException {
-        BufferedReader bReader = BasicFileIO.getResourceReader(dict);
+        //InputStream stream = Configuration.class.getClassLoader().getResourceAsStream(dict);
+        BufferedReader bReader = new BufferedReader(new FileReader(dict));
         HashMap<String,String> dictset = new HashMap<String,String>();
         String line=BasicFileIO.getLine(bReader);
         while(line != null){
@@ -62,6 +63,14 @@ public class Configuration {
             line = BasicFileIO.getLine(bReader);
         }
         return dictset;
+    }
+
+    public static BufferedReader getResourceReader(InputStream stream) throws IOException {
+        if (stream == null) throw new IOException("failed to find resource ");
+        //read in paths file
+        BufferedReader bReader = new BufferedReader(new InputStreamReader(
+                stream, Charset.forName("UTF-8")));
+        return bReader;
     }
 
     public boolean isUseSlang() {
