@@ -64,6 +64,10 @@
             <name>ahmetaa Maven Repo on Github</name>
             <url>https://raw.github.com/ahmetaa/maven-repo/master</url>
         </repository>
+        <repository>
+            <id>conjars.org</id>
+            <url>http://conjars.org/repo</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -83,9 +87,9 @@
             <version>0.5.2-rtext-1.4.1-2</version>
         </dependency>
         <dependency>
-            <groupId>edu.cmu.cs</groupId>
-            <artifactId>ark-tweet-nlp</artifactId>
-            <version>0.3.2</version>
+            <groupId>edu.cmu.cs.lti</groupId>
+            <artifactId>ark-tweet-nlp-with-deps</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
