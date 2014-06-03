@@ -54,6 +54,44 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>copy-dependencies</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <outputDirectory>../bin</outputDirectory>
+                                <includeScope>runtime</includeScope>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.googlecode.addjars-maven-plugin</groupId>
+                    <artifactId>addjars-maven-plugin</artifactId>
+                    <version>1.0.3</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>add-jars</goal>
+                            </goals>
+                            <configuration>
+                                <resources>
+                                    <JarResource>
+                                        <directory>../lib</directory>
+                                        <includes>
+                                            <include>**/*.jar</include>
+                                        </includes>
+                                    </JarResource>
+                                </resources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
