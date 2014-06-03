@@ -15,6 +15,7 @@ public class Test {
     }
 
     public static void mongoTest() {
+        System.out.print("Hello");
         try {
             Mongo mongo = new Mongo();
             System.out.print(mongo.dic.count());
